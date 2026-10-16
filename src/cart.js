@@ -3,22 +3,45 @@ function notImplemented() {
 }
 
 function addToCart(cart, product, quantity) {
-  if (quantity === 0 || quantity > product.stock) {
-    throw new RangeError;
+  if (quantity === 0) {
+    throw new RangeError('Количество равно 0');
   }
+  
+  if (quantity > product.stock) {
+      throw new RangeError(`${product.name} в наличии на складе ${product.stock} шт`);
+  }
+
   const cartItem = cart.find((p) => p.id === product.id);
+
   if (cartItem) {
     const currentQuantity = cartItem.quantity + quantity;
-    if (currentQuantity === 0 || currentQuantity > product.stock) {
-      throw new RangeError(`${cartItem.name} в наличии на складе ${product.stock} шт`);
+    if (currentQuantity > cartItem.stock) {
+      throw new RangeError(`${product.name} в наличии на складе ${product.stock} шт`);
     }
     cart.splice(cart.indexOf(cartItem), 1, { id: product.id, name: product.name, price: product.price, stock: product.stock, quantity: currentQuantity });
   } else {
     cart.push({ id: product.id, name: product.name, price: product.price, stock: product.stock, quantity: quantity });
   }
+  
   return cart;
 }
-function changeQuantity() { return notImplemented(); }
+function changeQuantity(cart, id, quantity) {
+  if (quantity === 0) {
+    throw new RangeError('Количество равно 0');
+  }
+  
+  const cartItem = cart.find((p) => p.id === id);
+
+  if (!cartItem) return cart;
+
+  if (quantity > cartItem.stock) {
+    throw new RangeError(`${cartItem.name} в наличии на складе ${cartItem.stock} шт`);
+  } else {
+    cartItem.quantity = quantity;
+  }
+
+  return cart;
+}
 function removeFromCart() { return notImplemented(); }
 function calculateCartSubtotal() { return notImplemented(); }
 function calculateOrderTotal() { return notImplemented(); }
