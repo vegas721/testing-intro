@@ -56,7 +56,21 @@ function calculateCartSubtotal(cart) {
   
   return subTotal;
 }
-function calculateOrderTotal() { return notImplemented(); }
+function calculateOrderTotal(cart, promoInput) {
+  let discount = 0;
+  let total = 0;
+  let delivery = 0;
+
+  total = calculateCartSubtotal(cart);
+
+  total < 50000 ? delivery = 30000 : delivery = 0;
+  
+  promoInput === 'SAVE10' && total >= 20000 ? discount = total * 0.1 : discount = 0;
+
+  total = total + delivery - discount;
+
+  return { subtotal: calculateCartSubtotal(cart), discount: discount, delivery: delivery, total: total }
+}
 
 const cartApi = { addToCart, changeQuantity, removeFromCart, calculateCartSubtotal, calculateOrderTotal };
 
