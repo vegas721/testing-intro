@@ -40,7 +40,24 @@ describe('sortProductsByPrice', () => {
     const prodId = sortProductsByPrice(productsByOrder, direction).map((product) => product.id);
     expect(prodId).toEqual([2, 5, 6]);
   });
-  test.todo("'asc' не меняет исходный массив [1, 3, 4]");
-  test.todo("'desc' не меняет исходный массив [1, 3, 4]");
-  test.todo('направление по умолчанию не меняет исходный массив всех товаров');
+  //test.todo("'asc' не меняет исходный массив [1, 3, 4]");
+  test("'asc' не меняет исходный массив [1, 3, 4]", () => {
+    const direction = 'asc';
+    const productsByOrder = products.filter(({ id }) => [1, 3, 4].includes(id));
+    sortProductsByPrice(productsByOrder, direction);
+    expect(productsByOrder.map((product) => product.id)).toEqual([1, 3, 4]);
+  });
+  //test.todo("'desc' не меняет исходный массив [1, 3, 4]");
+  test("'desc' не меняет исходный массив [1, 3, 4]", () => {
+    const direction = 'desc';
+    const productsByOrder = products.filter(({ id }) => [1, 3, 4].includes(id));
+    sortProductsByPrice(productsByOrder, direction);
+    expect(productsByOrder.map((product) => product.id)).toEqual([1, 3, 4]);
+  });
+  //test.todo('направление по умолчанию не меняет исходный массив всех товаров');
+  test('направление по умолчанию не меняет исходный массив всех товаров', () => {
+    const productsByOrder = products.filter(({ id }) => [1, 2, 3, 4, 5, 6].includes(id));
+    sortProductsByPrice(productsByOrder);
+    expect(productsByOrder.map((product) => product.id)).toEqual([1, 2, 3, 4, 5, 6]);
+  });
 });
